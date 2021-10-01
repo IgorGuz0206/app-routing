@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
 import { PHRASES } from '../../shared/mock-data';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./phrase-details.component.scss'],
 })
 export class PhraseDetailsComponent implements OnInit, CanComponentDeactivate {
-  phrase!: Phrase | undefined
+  phrase!: Phrase 
   editValue!: string
   editLanguage!: string
 
@@ -25,20 +25,27 @@ export class PhraseDetailsComponent implements OnInit, CanComponentDeactivate {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.forEach((params: Params) => {
-      const id = +params.id;
-      if (isNaN(id)) return;
-
-      this.phraseService
-      .getPhrase(id)
-      .then(res => {
-        this.phrase = res
-        if (this.phrase) {
-          this.editValue = this.phrase.value
-          this.editLanguage = this.phrase.language
-        }
+      this.activatedRoute.data.subscribe((data: Data) => {
+        this.phrase = data.phrase
+        this.editValue = this.phrase.value
+        this.editLanguage = this.phrase.language
       })
-    })
+
+
+    // this.activatedRoute.params.forEach((params: Params) => {
+    //   const id = +params.id;
+    //   if (isNaN(id)) return;
+
+    //   this.phraseService
+    //   .getPhrase(id)
+    //   .then(res => {
+    //     this.phrase = res
+    //     if (this.phrase) {
+    //       this.editValue = this.phrase.value
+    //       this.editLanguage = this.phrase.language
+    //     }
+    //   })
+    // })
   }
 
   gotoPhrasesList(): void {

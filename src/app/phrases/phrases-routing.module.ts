@@ -4,6 +4,7 @@ import { CanDeactivateGuard } from '../shared/can-deactivate.guard';
 import { PhraseDetailsComponent } from './phrase-details/phrase-details.component';
 import { PhraseHomeComponent } from './phrase-home/phrase-home.component';
 import { PhrasesListComponent } from './phrases-list/phrases-list.component';
+import { PhraseDetailsResolver } from '../shared/frase-details.resolver';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
           {
             path: ':id', 
             component: PhraseDetailsComponent,
-            canDeactivate: [CanDeactivateGuard]
+            canDeactivate: [CanDeactivateGuard],
+            resolve: {phrase: PhraseDetailsResolver}
           }
         ]
       },
